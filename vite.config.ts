@@ -18,4 +18,8 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "src"),
 		},
 	},
+
+	optimizeDeps: {
+		include: ["react/jsx-dev-runtime", "vitest-browser-react", "react"],
+	},
 });

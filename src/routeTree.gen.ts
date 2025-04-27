@@ -11,9 +11,16 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as BookAppointmentImport } from './routes/book-appointment'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const BookAppointmentRoute = BookAppointmentImport.update({
+  id: '/book-appointment',
+  path: '/book-appointment',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -32,6 +39,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/book-appointment': {
+      id: '/book-appointment'
+      path: '/book-appointment'
+      fullPath: '/book-appointment'
+      preLoaderRoute: typeof BookAppointmentImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -39,32 +53,37 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/book-appointment': typeof BookAppointmentRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/book-appointment': typeof BookAppointmentRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/book-appointment': typeof BookAppointmentRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/book-appointment'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/book-appointment'
+  id: '__root__' | '/' | '/book-appointment'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BookAppointmentRoute: typeof BookAppointmentRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BookAppointmentRoute: BookAppointmentRoute,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +96,15 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/book-appointment"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/book-appointment": {
+      "filePath": "book-appointment.tsx"
     }
   }
 }
