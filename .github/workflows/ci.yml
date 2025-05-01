@@ -11,26 +11,38 @@ jobs:
     runs-on: ubuntu-22.04
 
     strategy:
-      matrix:
-        node-version: [22]
+      matrix: { node-version: [22] }
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10.9.0
+        with: { version: 10.9.0 }
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
           cache-dependency-path: '**/pnpm-lock.yaml'
 
+      - name: Restore Playwright cache
+        id: restore-playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-v1
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      # ------------------------------------------------------------------
+      # Install browsers ONCE (only if not cached) – not timed
+      # ------------------------------------------------------------------
+      - name: Install Playwright browsers
+        if: steps.restore-playwright.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps
 
       - name: Run lint
         run: pnpm run lint
@@ -43,5 +55,6 @@ jobs:
 
       - name: Browser tests
         run: |
-          pnpm exec playwright install --with-deps
-          pnpm test:browser
+          echo "::group::Browser tests"
+          /usr/bin/time -v pnpm test:browser
+          echo "::endgroup::"

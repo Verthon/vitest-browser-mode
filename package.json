@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint .",
     "preview": "vite preview",
+    "type-check": "tsc --noEmit",
     "test:node": "vitest run --config vitest.node.config.ts",
     "test:browser": "vitest run --config vitest.browser.config.ts --browser"
   },
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@tanstack/react-router-devtools": "^1.117.1",
     "@tanstack/router-plugin": "^1.117.2",
+    "@types/node": "^22.15.3",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react-swc": "^3.8.0",

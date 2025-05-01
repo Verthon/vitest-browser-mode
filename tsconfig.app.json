@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "types": ["@vitest/browser/providers/playwright"],
+    "types": ["@vitest/browser/providers/playwright", "node"],
 
     /* Paths */
 
