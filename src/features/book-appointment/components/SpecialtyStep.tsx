@@ -5,15 +5,22 @@ import { Card } from "@/design-system/card/Card";
 import { useSpecialties } from "../hooks/useSpecialties";
 import { useSpecialtyPicker } from "../hooks/useSpecialtyPicker";
 import { StepErrorState } from "./StepErrorState";
+import { SpecialtyLoadingState } from "./SpecialtyLoadingState";
 
 type SpecialtyStepProps = { onNext(selected: string): void };
 
 export const SpecialtyStep = ({ onNext }: SpecialtyStepProps) => {
-	const { data: specialties, isPending, isError, refetch } = useSpecialties();
+	const {
+		data: specialties,
+		isPending,
+		isError,
+		isSuccess,
+		refetch,
+	} = useSpecialties();
 	const { canNext, dispatch, state } = useSpecialtyPicker();
-
-	if (isPending) return <p className="text-center">Loading…</p>;
-	if (isError) return <StepErrorState mainErrorMessage="We couldn’t load specialties." retry={refetch} />;
+	const handleNext = () => {
+		onNext(state.selectedId!);
+	};
 
 	return (
 		<section
@@ -27,35 +34,44 @@ export const SpecialtyStep = ({ onNext }: SpecialtyStepProps) => {
 				What type of care do you need?
 			</h1>
 
-			<RadioGroup
-				aria-labelledby="specialty-heading"
-				value={state.selectedId ?? undefined}
-				onValueChange={(id) => dispatch({ type: "select", id: id as string })}
-				className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8"
-			>
-				{specialties?.map((spec) => (
-					<label key={spec.id} className="cursor-pointer">
-						<Radio.Root value={spec.id} className="sr-only">
-							<Radio.Indicator /> {/* hidden, but required */}
-						</Radio.Root>
+			{isPending && <SpecialtyLoadingState />}
+			{isError && (
+				<StepErrorState
+					mainErrorMessage="We couldn’t load specialties."
+					retry={refetch}
+				/>
+			)}
+			{isSuccess && (
+				<RadioGroup
+					aria-labelledby="specialty-heading"
+					value={state.selectedId ?? undefined}
+					onValueChange={(id) => dispatch({ type: "select", id: id as string })}
+					className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8"
+				>
+					{specialties?.map((spec) => (
+						<label key={spec.id} className="cursor-pointer">
+							<Radio.Root value={spec.id} className="sr-only">
+								<Radio.Indicator />
+							</Radio.Root>
 
-						<Card
-							className={`transition border-2 peer-focus:ring-2 ${
-								state.selectedId === spec.id
-									? "border-primary-500 ring-primary-500"
-									: "border-transparent hover:border-primary-200"
-							}`}
-						>
-							<p className="font-medium">{spec.name.en}</p>
-							{spec.description?.en && (
-								<p className="text-sm text-muted-foreground mt-1">
-									{spec.description.en}
-								</p>
-							)}
-						</Card>
-					</label>
-				))}
-			</RadioGroup>
+							<Card
+								className={`transition border-2 peer-focus:ring-2 ${
+									state.selectedId === spec.id
+										? "border-primary-500 ring-primary-500"
+										: "border-transparent hover:border-primary-200"
+								}`}
+							>
+								<p className="font-medium">{spec.name.en}</p>
+								{spec.description?.en && (
+									<p className="text-sm text-muted-foreground mt-1">
+										{spec.description.en}
+									</p>
+								)}
+							</Card>
+						</label>
+					))}
+				</RadioGroup>
+			)}
 
 			<div className="flex justify-end gap-2">
 				<a
@@ -67,7 +83,7 @@ export const SpecialtyStep = ({ onNext }: SpecialtyStepProps) => {
 
 				<button
 					disabled={!canNext}
-					onClick={() => onNext(state.selectedId!)}
+					onClick={handleNext}
 					className="px-4 py-2 rounded-md bg-primary-500 disabled:opacity-50 cursor-pointer"
 				>
 					Next

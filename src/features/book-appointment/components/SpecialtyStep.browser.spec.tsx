@@ -9,7 +9,7 @@ import { baseURL } from "../services/specialty";
 
 describe("SpecialtyStep", () => {
 	it("renders error state with retry action of failed request for specialties", async () => {
-		overrideEndpoint({ url: `${baseURL}/specialties`, status: 500 });
+		await overrideEndpoint({ url: `${baseURL}/specialties`, status: 500 });
 		render(<SpecialtyStep onNext={() => null} />, { wrapper: withProviders() });
 
 		const errorAlert = page.getByRole('alert');

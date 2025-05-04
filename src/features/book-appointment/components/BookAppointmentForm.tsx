@@ -1,13 +1,15 @@
+import { ChooseDoctorStep } from "../doctor/components/ChooseDoctorStep";
 import { SpecialtyStep } from "./SpecialtyStep";
 
 export const BookAppointmentForm = () => {
-	const handleNext = () => {
-		console.log("next");
+	const handleFirstStepSubmit = (specialty: string) => {
+		console.log("next", specialty);
 	};
 
 	return (
 		<div>
-			<SpecialtyStep onNext={handleNext} />
+			<SpecialtyStep onNext={handleFirstStepSubmit} />
+			<ChooseDoctorStep />
 		</div>
 	);
 };
