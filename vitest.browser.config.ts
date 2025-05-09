@@ -7,6 +7,9 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "src"),
 		},
 	},
+	optimizeDeps: {
+		include: ['react/jsx-dev-runtime']
+	},
 	test: {
 		include: ["src/**/*.(browser).spec.[jt]s?(x)"],
 		browser: {

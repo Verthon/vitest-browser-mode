@@ -18,6 +18,8 @@
     "@tanstack/react-query": "^5.74.4",
     "@tanstack/react-router": "^1.117.1",
     "@tanstack/router": "0.0.1-beta.53",
+    "@zod/mini": "4.0.0-beta.20250503T014749",
+    "date-fns": "^4.1.0",
     "ofetch": "^1.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

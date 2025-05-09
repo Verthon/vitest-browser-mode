@@ -1,24 +1,30 @@
-import { JSX, PropsWithChildren } from 'react'
+import { act, PropsWithChildren } from "react";
 import {
-  QueryClient,
-  QueryClientProvider,
-  QueryClientConfig,
-} from '@tanstack/react-query'
+	QueryClient,
+	QueryClientProvider,
+	QueryClientConfig,
+} from "@tanstack/react-query";
+import { router } from "./bootstrap";
 
-export type WrapperProps = {
-  queryConfig?: QueryClientConfig
-}
+export const createTestWrapper =
+	({ queryConfig }: { queryConfig?: QueryClientConfig } = {}) =>
+	({ children }: PropsWithChildren<{}>) => {
+		const client = new QueryClient({
+			defaultOptions: { queries: { retry: false } },
+			...queryConfig,
+		});
+		return (
+			<QueryClientProvider client={client}>{children}</QueryClientProvider>
+		);
+	};
 
-export const withQueryClient =
-  ({ queryConfig }: WrapperProps = {}) =>
-  // ✅ wrapper signature that testing-library expects
-  ({ children }: PropsWithChildren<{}>): JSX.Element => {
-    const client = new QueryClient({
-      defaultOptions: { queries: { retry: false } },
-      ...queryConfig,
-    })
-    return <QueryClientProvider client={client}>{children}</QueryClientProvider>
-  }
-
-/** Full providers.  Currently just query-client, but extendable. */
-export const withProviders = (opts?: WrapperProps) => withQueryClient(opts)
+export const createTestRouterHelper = () => {
+  return {
+    router,
+    navigateTo: async (path: string, params: Record<string, any> = {}) => {
+      await act(async () => {
+        await router.navigate({ to: path, ...params });
+      });
+    }
+  };
+};

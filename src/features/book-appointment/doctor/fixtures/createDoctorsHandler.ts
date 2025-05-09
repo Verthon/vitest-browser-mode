@@ -28,6 +28,30 @@ const fakeDoctors: Doctor[] = [
 		rating: 4.9,
 		avatarUrl: "/avatars/cooper.jpg",
 	},
+  {
+		id: "mariusz",
+		fullName: "MARIUSZ",
+		specialtyId: "pediatrics",
+		yearsExperience: 39,
+		rating: 5.0,
+		avatarUrl: "/avatars/mariusz.jpg",
+	},
+  {
+		id: "dariusz",
+		fullName: "DARIUSZ",
+		specialtyId: "orthopedics",
+		yearsExperience: 5,
+		rating: 4.2,
+		avatarUrl: "/avatars/dariusz.jpg",
+	},
+  {
+		id: "januszek",
+		fullName: "JANUSZEK",
+		specialtyId: "neurology",
+		yearsExperience: 7,
+		rating: 1.0,
+		avatarUrl: "/avatars/januszek.jpg",
+	},
 ];
 
 export const createDoctorsHandler = () => {

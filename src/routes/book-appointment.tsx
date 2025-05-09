@@ -1,10 +1,13 @@
-import { BookAppointmentPage } from '@/features/book-appointment/BookAppointmentPage'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import * as z from "@zod/mini";
 
-export const Route = createFileRoute('/book-appointment')({
-  component: RouteComponent,
-})
+import { BookAppointmentPage } from "@/features/book-appointment/BookAppointmentPage";
 
-function RouteComponent() {
-  return <BookAppointmentPage />
-}
+export const Route = createFileRoute("/book-appointment")({
+	validateSearch: z.object({
+		step: z.number().check(z.minimum(1), z.maximum(5)),
+		specialtyId: z.optional(z.string()),
+		doctorId: z.optional(z.string()),
+	}),
+	component: BookAppointmentPage,
+});

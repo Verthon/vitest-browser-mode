@@ -11,7 +11,6 @@ export const useDoctorsBySpecialty = (
     queryKey: ['doctors', specialtyId],
     queryFn: queryFn(specialtyId),
     enabled: Boolean(specialtyId),
-    staleTime: 5 * 60_000,
   })
 
   return {

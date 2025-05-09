@@ -17,7 +17,6 @@ Most important for each prompt, let me know if you understand everything and the
 - favor the dependency injection for easier testing
 - try to not import code from one module to another one
 
-
 ## Styling
 
 - use latest version of the Tailwind CSS (v4)

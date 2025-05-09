@@ -9,6 +9,6 @@ export const createDoctorsService = (
 ) => {
 	return {
 		getDoctorsBySpecialty: (specialtyId: string) => () =>
-			customFetch<Doctor>(`/doctors?specialtyId=${specialtyId}`),
+			customFetch<Doctor[]>(`/doctors?specialtyId=${specialtyId}`),
 	};
 };

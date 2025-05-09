@@ -10,7 +10,9 @@ export const HomePage = () => {
 			<p className="text-muted mt-2">
 				Welcome to the Medical Appointment Scheduler
 			</p>
-			<Link to="/book-appointment">Book an appointment</Link>
+			<Link to="/book-appointment" search={{ step: 1 }}>
+				Book an appointment
+			</Link>
 		</Card>
 	);
 };
